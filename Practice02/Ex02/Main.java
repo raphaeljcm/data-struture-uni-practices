@@ -12,13 +12,13 @@ public class Main {
         Scanner scan;
 
         // Lista Noivo
-        scan = new Scanner(new File("./listaNoivo"));
+        scan = new Scanner(new File("./listaNoivo.txt"));
         while(scan.hasNextLine()) {
             listaNoivo.adicionar(scan.nextLine());
         }
 
         // Lista Noiva
-        scan = new Scanner(new File("./listaNoiva"));
+        scan = new Scanner(new File("./listaNoiva.txt"));
         while(scan.hasNextLine()) {
             listaNoiva.adicionar(scan.nextLine());
         }
@@ -53,6 +53,20 @@ public class Main {
         System.out.println("\nLISTA ORDENADA");
         for(int i = 0; i < listaJoin.getTamanho(); i++) {
             System.out.println(listaJoin.get(i).getValor());
+        }
+
+        System.out.println("\n LISTA COMPLETA");
+        for(int i = 0;i < listaJoin.getTamanho(); i++) {
+            System.out.println("ATUAL");
+            System.out.println(listaJoin.get(i).getValor());
+
+            if(listaJoin.get(i).getValor() == listaJoin.getUltimo().getValor()) {
+                System.out.println("ACABOU!");
+                break;
+            }
+
+            System.out.println("PROXIMO");
+            System.out.println(listaJoin.get(i).getProximo().getValor());
         }
     }
 }
