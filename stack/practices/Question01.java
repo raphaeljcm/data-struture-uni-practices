@@ -21,16 +21,20 @@ public class Question01 {
         System.out.println("---------- FRASES -------------");
         stack.forEach(System.out::println);
 
-        for(int i = 0; i < 10; i++) {
-            top10.add(stack.pop());
+        if(!stack.empty()) {
+            for (int i = 0; i < 10; i++) {
+                top10.add(stack.pop());
+            }
+
+            System.out.println();
+            System.out.println("---------- OUTRAS FRASES -------------");
+            stack.forEach(System.out::println);
+
+            System.out.println();
+            System.out.println("---------- TOP 10 -------------");
+            top10.forEach(System.out::println);
+        } else {
+            System.out.println("Pilha vazia!");
         }
-
-        System.out.println();
-        System.out.println("---------- OUTRAS FRASES -------------");
-        stack.forEach(System.out::println);
-
-        System.out.println();
-        System.out.println("---------- TOP 10 -------------");
-        top10.forEach(System.out::println);
     }
 }
