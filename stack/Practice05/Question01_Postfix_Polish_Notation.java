@@ -1,56 +1,122 @@
 package stack.Practice05;
 
-import java.util.EmptyStackException;
 import java.util.Stack;
 
 public class Question01_Postfix_Polish_Notation {
     static boolean isOperator(String el) {
-        if (el.equals("+") || el.equals("-") || el.equals("/") || el.equals("*")) {
-            return true;
-        }
-
-        return false;
+        return el.equals("+") || el.equals("-") || el.equals("/") || el.equals("*");
     }
 
-    public static int generatePostfixPolishNotation(String expression[]) {
-        int expressionLength = expression.length;
-
+    public static int generatePostfixPolishNotation(String[] expression) {
         Stack<Integer> myStack = new Stack<>();
+        String operatorTemp = "";
 
-        for(int i = 0; i < expressionLength; i++) {
-            if(isOperator(expression[i])) {
+        for (String s : expression) {
+            if (isOperator(s)) {
+                if(myStack.size() <= 1) {
+                    operatorTemp = s;
+                    continue;
+                }
+
+                if(!operatorTemp.isEmpty()) {
+                    int first = myStack.pop();
+                    int second = myStack.pop();
+
+                    if (operatorTemp.equals("+")) {
+                        int temp = second + first;
+                        myStack.push(temp);
+                    } else if (operatorTemp.equals("-")) {
+                        if ((first < 0) || (second < 0)) {
+                            int firstV2 = Math.abs(first);
+                            int secondV2 = Math.abs(second);
+                            int temp = secondV2 - firstV2;
+
+                            myStack.push(temp);
+                        }
+                        int temp = second - first;
+                        myStack.push(temp);
+                    }
+
+                    if (operatorTemp.equals("*")) {
+                        int temp = second * first;
+                        myStack.push(temp);
+                    }
+
+                    if (operatorTemp.equals("/")) {
+                        int temp = second / first;
+                        myStack.push(temp);
+                    }
+
+                    if(myStack.size() <= 1) {
+                        operatorTemp = s;
+                        continue;
+                    } else {
+                        operatorTemp = "";
+                    }
+                }
+
                 int first = myStack.pop();
                 int second = myStack.pop();
 
-                if(expression[i].equals("+")) {
-                    int temp = first + second;
+                if (s.equals("+")) {
+                    int temp = second + first;
                     myStack.push(temp);
-                } else if(expression[i].equals("-")) {
-                    if((first < 0) || (second < 0)) {
+                } else if (s.equals("-")) {
+                    if ((first < 0) || (second < 0)) {
                         int firstV2 = Math.abs(first);
                         int secondV2 = Math.abs(second);
-                        int temp = firstV2 - secondV2;
+                        int temp = secondV2 - firstV2;
 
                         myStack.push(temp);
                     }
-                    int temp = first - second;
+                    int temp = second - first;
                     myStack.push(temp);
                 }
 
-                if(expression[i].equals("*")) {
-                    int temp = first * second;
+                if (s.equals("*")) {
+                    int temp = second * first;
                     myStack.push(temp);
                 }
 
-                if(expression[i].equals("/")) {
-                    int temp = first / second;
+                if (s.equals("/")) {
+                    int temp = second / first;
                     myStack.push(temp);
                 }
             } else {
-                myStack.push(Integer.parseInt(expression[i]));
+                myStack.push(Integer.parseInt(s));
             }
 
             System.out.println(myStack.peek());
+        }
+
+        if(myStack.size() == 2) {
+            int first = myStack.pop();
+            int second = myStack.pop();
+
+            if (operatorTemp.equals("+")) {
+                int temp = second + first;
+                myStack.push(temp);
+            } else if (operatorTemp.equals("-")) {
+                if ((first < 0) || (second < 0)) {
+                    int firstV2 = Math.abs(first);
+                    int secondV2 = Math.abs(second);
+                    int temp = secondV2 - firstV2;
+
+                    myStack.push(temp);
+                }
+                int temp = second - first;
+                myStack.push(temp);
+            }
+
+            if (operatorTemp.equals("*")) {
+                int temp = second * first;
+                myStack.push(temp);
+            }
+
+            if (operatorTemp.equals("/")) {
+                int temp = second / first;
+                myStack.push(temp);
+            }
         }
 
         return myStack.pop();
