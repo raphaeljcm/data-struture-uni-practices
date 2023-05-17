@@ -38,9 +38,17 @@ function nearestNeighbor(graph, startVertex) {
     visited.add(nearestVertex);
   }
 
-  const startVertexEdgeWeight = graph.vertices.get(startVertex).get(path[path.length - 1]);
-  path.push(startVertex); // Complete the cycle
-  totalWeight += startVertexEdgeWeight;
+  const startVertexEdgeWeight = graph.vertices.has(startVertex) && graph.vertices.get(startVertex).has(path[path.length - 1])
+    ? graph.vertices.get(startVertex).get(path[path.length - 1])
+    : Infinity;
+
+  if (startVertexEdgeWeight !== Infinity) {
+    path.push(startVertex); // Complete the cycle
+    totalWeight += startVertexEdgeWeight;
+  } else {
+    // No valid tour found, return null
+    return null;
+  }
 
   return { path, totalWeight };
 }
@@ -50,12 +58,24 @@ function findBestTour(graph) {
   let bestWeight = Infinity;
 
   for (const startVertex of graph.vertices.keys()) {
-    const { path, totalWeight } = nearestNeighbor(graph, startVertex);
+    const result = nearestNeighbor(graph, startVertex);
+
+    if (result === null) {
+      // No valid tour found for this start vertex, continue to the next
+      continue;
+    }
+
+    const { path, totalWeight } = result;
 
     if (totalWeight < bestWeight) {
       bestPath = path;
       bestWeight = totalWeight;
     }
+  }
+
+  if (bestPath === null) {
+    // No valid tour found for any start vertex
+    return null;
   }
 
   return { path: bestPath, totalWeight: bestWeight };
