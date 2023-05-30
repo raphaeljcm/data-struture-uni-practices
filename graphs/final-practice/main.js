@@ -1,3 +1,26 @@
+import * as readline from 'node:readline';
+import { stdin as input, stdout as output } from 'node:process';
+import { promisify } from 'node:util';
+
+const VALID_CITIES = [
+  "Belo Horizonte",
+  "Contagem",
+  "Uberlândia",
+  "Juiz de Fora",
+  "Ribeirão das Neves",
+  "Betim",
+  "Montes Claros",
+  "Uberaba",
+  "Governador Valadares",
+  "Santa Luzia",
+  "Ipatinga",
+  "Sete Lagoas",
+  "Divinópolis",
+  "Poços de Caldas",
+  "Ibirité"
+];
+
+
 class WeightedGraph {
   constructor() {
     this.vertices = new Map();
@@ -299,12 +322,34 @@ function seedGraph(graph) {
 const formatToKm = (number) => 
   new Intl.NumberFormat('pt-BR', { style: 'unit', unit: 'kilometer' }).format(number)
 
-function main() {
+function main(city) {
   const graph = new WeightedGraph();
   seedGraph(graph);
-  const { path, totalWeight } = nearestNeighbor(graph, 'Belo Horizonte');
+
+  const { path, totalWeight } = nearestNeighbor(graph, city);
   console.log("Caminho: ", path.join(' -> '));
   console.log("Cálculo total percorrido: ", formatToKm(totalWeight));
 }
 
-main();
+async function getCity() {
+  const rl = readline.createInterface({ input, output });
+  let city = '';
+
+  const question = promisify(rl.question).bind(rl);
+
+  while (true) {
+    const answer = await question('De qual cidade deseja partir? ');
+
+    if (VALID_CITIES.includes(answer)) {
+      city = answer;
+      break;
+    } else {
+      console.log('Cidade inválida!')
+    }
+  }
+
+  rl.close();
+  main(city);
+}
+
+getCity();
