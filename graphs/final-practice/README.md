@@ -2,9 +2,9 @@
 
 ## Alunos:
 
-Camila Soares da Silva - RA: 12109716
-Daniel Rabelo Chaves - RA: 12106756 
-Raphael Javier Cardoso Marques - RA: 12109453                   
+Camila Soares da Silva - RA: 12109716   
+Daniel Rabelo Chaves - RA: 12106756     
+Raphael Javier Cardoso Marques - RA: 12109453    
 Yuri Italo - RA: 12109720
 
 O algoritimo foi implementado utilizando a linguagem Javascript, com o intuito de resolver o problema proposto. Utilizei um algoritmo guloso para resolver o problema, um algoritmo guloso toma a decisão que parece ser a melhor no momento atual, sem considerar as possíveis consequências futuras. Escolhi o algoritmo do vizinho mais próximo, também conhecido como KNN, nesse algoritmo, um único caminho é construído começando pelo vértice inicial especificado pelo usuário. Ele encontra o vizinho mais próximo não visitado em cada etapa e continua construindo o caminho até que todos os vértices tenham sido visitados.
