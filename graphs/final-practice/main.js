@@ -11,26 +11,11 @@ const seedGraph = (graph) => {
   CITY_CONNECTIONS.forEach(([ vertex1, vertex2, weight ]) => graph.addEdge(vertex1, vertex2, weight));
 }
 
-function main(city) {
-  const graph = new WeightedGraph();
-  seedGraph(graph);
-
-  const { path, totalWeight } = nearestNeighbor(graph, city);
-  console.log("Caminho completo: ", path.join(' -> '));
-  console.log("Distância total: ", formatToKm(totalWeight));
-}
-
 async function getCity() {
   const rl = readline.createInterface({ input, output });
   let city = '';
 
   const question = promisify(rl.question).bind(rl);
-
-  console.log('|----------------------------------------|');
-  console.log('|     App de Planejamento de Viagem      |');
-  console.log('|----------------------------------------|');
-  console.log('|   Bem vindo ao Planejamento de Viagem! |');
-  console.log('|----------------------------------------|');
 
   while (true) {
     const answer = await question('De qual cidade você irá partir? ');
@@ -46,7 +31,24 @@ async function getCity() {
   }
 
   rl.close();
-  main(city);
+  return city;
 }
 
-getCity();
+async function main() {
+  console.log('|----------------------------------------|');
+  console.log('|     App de Planejamento de Viagem      |');
+  console.log('|----------------------------------------|');
+  console.log('|   Bem vindo ao Planejamento de Viagem! |');
+  console.log('|----------------------------------------|');
+
+  const graph = new WeightedGraph();
+  seedGraph(graph);
+
+  const city = await getCity();
+
+  const { path, totalWeight } = nearestNeighbor(graph, city);
+  console.log("Caminho completo: ", path.join(' -> '));
+  console.log("Distância total: ", formatToKm(totalWeight));
+}
+
+main();
