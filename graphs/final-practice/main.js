@@ -327,8 +327,8 @@ function main(city) {
   seedGraph(graph);
 
   const { path, totalWeight } = nearestNeighbor(graph, city);
-  console.log("Caminho: ", path.join(' -> '));
-  console.log("Cálculo total percorrido: ", formatToKm(totalWeight));
+  console.log("Caminho completo: ", path.join(' -> '));
+  console.log("Distância total: ", formatToKm(totalWeight));
 }
 
 async function getCity() {
@@ -337,14 +337,22 @@ async function getCity() {
 
   const question = promisify(rl.question).bind(rl);
 
+  console.log('|----------------------------------------|');
+  console.log('|     App de Planejamento de Viagem      |');
+  console.log('|----------------------------------------|');
+  console.log('|   Bem vindo ao Planejamento de Viagem! |');
+  console.log('|----------------------------------------|');
+
   while (true) {
-    const answer = await question('De qual cidade deseja partir? ');
+    const answer = await question('De qual cidade você irá partir? ');
 
     if (VALID_CITIES.includes(answer)) {
       city = answer;
       break;
     } else {
-      console.log('Cidade inválida!')
+      console.log('|-----------------------------------------------|');
+      console.log('|  Cidade inválida! Por favor, tente novamente. |');
+      console.log('|-----------------------------------------------|');
     }
   }
 
